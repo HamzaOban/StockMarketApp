@@ -1,9 +1,11 @@
 package com.dogukan.stockmarketapp.data.repository
 
+import com.dogukan.stockmarketapp.data.csv.CSVParser
 import com.dogukan.stockmarketapp.data.local.CompanyListingEntity
 import com.dogukan.stockmarketapp.data.local.StockDatabase
 import com.dogukan.stockmarketapp.data.mapper.toCompanyListing
 import com.dogukan.stockmarketapp.data.remote.dto.StockApi
+import com.dogukan.stockmarketapp.domain.model.CompanyListing
 import com.dogukan.stockmarketapp.domain.repository.StockRepository
 import com.dogukan.stockmarketapp.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +19,8 @@ import javax.inject.Singleton
 @Singleton
 class StockRepositoryImpl @Inject constructor(
     val api : StockApi,
-    val db : StockDatabase
+    val db : StockDatabase,
+    val companyListingParser : CSVParser<CompanyListing>
 ) : StockRepository {
     private val dao = db.dao
     override suspend fun getCompanyListing(
@@ -38,15 +41,30 @@ class StockRepositoryImpl @Inject constructor(
             }
             val remoteListing = try {
                 val response = api.getListing()
+                companyListingParser.parse(response.byteStream())
             }
             catch (e : IOException){
                 e.printStackTrace()
                 emit(Resource.Error("Couldn't load data"))
+                null
             }catch (e :HttpException){
                 e.printStackTrace()
                 emit(Resource.Error("Couldn't load data"))
+                null
 
+            }
 
+            remoteListing?.let { listing ->
+                dao.clearCompanyListing()
+                dao.instertCompanyListing(
+                    listing.map { it.toCompanyListing() }
+                )
+                emit(Resource.Success(
+                    data = dao
+                        .searcCompanyListing("")
+                        .map { it.toCompanyListing().toCompanyListing() }
+                ))
+                emit(Resource.Loading(false))
             }
 
         }
