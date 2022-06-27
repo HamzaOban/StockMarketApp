@@ -3,7 +3,7 @@ package com.dogukan.stockmarketapp.di
 import android.app.Application
 import androidx.room.Room
 import com.dogukan.stockmarketapp.data.local.StockDatabase
-import com.dogukan.stockmarketapp.data.remote.dto.StockApi
+import com.dogukan.stockmarketapp.data.remote.StockApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +19,7 @@ object AppModule {
     
     @Provides
     @Singleton
-    fun provideStockApi() : StockApi{
+    fun provideStockApi() : StockApi {
         return Retrofit.Builder()
             .baseUrl(StockApi.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
