@@ -24,7 +24,7 @@ class IntradayInfoParser @Inject constructor(): CSVParser<IntradayInfo> {
                 .mapNotNull {
                     val timestamp = it.getOrNull(0) ?: return@mapNotNull null
                     val close = it.getOrNull(4) ?: return@mapNotNull null
-                    val dto = IntradayInfoDto(timestamp, close)
+                    val dto = IntradayInfoDto(timestamp, close.toDouble())
                     dto.toIntradayInfo()
                 }
                 .also {
