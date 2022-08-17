@@ -13,9 +13,11 @@ Stock market application with https://www.alphavantage.co/
     - Company history
     - Market summary
 
-:-------------:|:-------------------------:
-![](images/2.png)  |  ![](images/4.png)
-
-:-------------:|:-------------------------:
-![](images/1.png)  |  ![](images/3.png)
+<p align="center">
+  <img src="images/1.png" width="350" >
+  <img src="images/1.png" width="350" >
+  <img src="images/1.png" width="350" >
+  <img src="images/1.png" width="350" >
+ 
+</p>
  
