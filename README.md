@@ -14,5 +14,8 @@ Stock market application with https://www.alphavantage.co/
     - Market summary
 
 :-------------:|:-------------------------:
-![](images/orn1.png)  |  ![](images/orn2.png)
+![](images/2.png)  |  ![](images/4.png)
+
+:-------------:|:-------------------------:
+![](images/1.png)  |  ![](images/3.png)
  
